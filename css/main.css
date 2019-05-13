@@ -1,0 +1,15 @@
+*{
+    background-color:black;
+    text-align:center;
+    color:#fff
+}
+
+.option {
+    font-size: 30px;
+    color: #3f3
+}
+
+#generate{
+    color: #3f3;
+    font-size: 50px;
+}
