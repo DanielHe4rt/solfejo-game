@@ -4,14 +4,17 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <h1>Joguinho de acertar nota de Solvejo</h1>
+        <h1>Solfejo Game</h1>
+        <p>Pontos: <strong id="points"></strong></p>
         <canvas id="canvas"></canvas>
         <br><br><br>
         <div id="options">
             
         </div>
         <br><br>
-        <button id="generate">Gerar Nota</button>
+        <button onclick="startGame()" id="start">Start Game</button>
     </body>
+    <script src="js/tone.js"></script>
+    <script src="js/tonejs-instruments.js"></script>
     <script src="js/main.js"></script>
 </html>

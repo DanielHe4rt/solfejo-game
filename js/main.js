@@ -4,8 +4,12 @@ let elem = document.getElementById('canvas'),
     context = elem.getContext('2d'),
     elements = [],
     notes = [],
-    rightNote = null
+    rightNote = null,
+    points = 0
 
+let synth = SampleLibrary.load({
+    instruments: "guitar-acoustic"
+});
     
     elem.width = window.innerWidth - 100
     elem.height = 300
@@ -72,6 +76,10 @@ const clearOptions = () => {
     document.getElementById('options').innerHTML = ""
 }
 
+const setPoints = (point) => {
+    document.getElementById('points').innerHTML = point
+}
+
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -83,9 +91,17 @@ function shuffle(a) {
 const checkNote = (e) => {
     
     if(e.target.id === rightNote.note){
-        alert("boa men cê é o bixo")
+        points++
+        setPoints(points)
+        generatePosition()
     }else{
-        alert('cê é m´´o burro errou pra krl')
+        points = 0
+        setPoints(points)
+        document.getElementById('start').style = "";
+        clearOptions()
+        clearCanvas()
+        generateSheet()
+        alert('Você falhou miseravelmente')
     }
 }
 const generateOption = (note,name) => {
@@ -101,7 +117,15 @@ const generateOption = (note,name) => {
 
 generateSheet()
 
-document.getElementById('generate').addEventListener('click', () => {
+const startGame = () => {
+    document.getElementById('start').style = "display:none";
+    points = 0
+    setPoints(points)
+    generatePosition()
+    
+}
+
+const generatePosition =  () => {
     let buttons = []
     var dotX =  Math.floor((Math.random() * (context.canvas.clientWidth - 100) + 100))
     var dotY = 25 * Math.floor((Math.random() * (12 - 1) + 1))
@@ -140,11 +164,11 @@ document.getElementById('generate').addEventListener('click', () => {
         generateOption(buttons[i].note,buttons[i].name)
     }
     
-    
-
     context.fillStyle = "#fff";
     context.beginPath()
     context.arc(dotX, dotY, 18, 0, 2 * Math.PI);
     context.closePath()
     context.fill(); 
-})
+    synth.toMaster().triggerAttackRelease(rightNote.note + (dotY < 150 ? "2" : "1"));
+
+}
